@@ -1,19 +1,19 @@
-#Tag application is run
-#Tag screen opens
-#AI and player are set as dots on grid screen
-#AI and player begin on opposite sides of screen
-#Timer is displayed at top of screen
-#Start signal shows up and timer begins to count down (start button)
-#AI has objective of maintaining distance from player within screen space before time runs out
-#AI moves around screen by shifting in direction that increases variable distance from player
-#AI moves one grid block every second
-#Player has objective of tagging AI within screen space before time runs out
-#Player can move around screen using arrow keys or wasd
-#Player moves one grid block every second
-#If player tags AI before time runs out screen flashes
-    #Screen then reads victory and returns player to Candyland
-#If player fails to tag AI before time runs out screen flashes
-    #Screen then reads failure and returns player to Candyland
+""" Tag application is run
+Tag screen opens
+AI and player are set as dots on grid screen
+AI and player begin on opposite sides of screen
+Timer is displayed at top of screen
+Start signal shows up and timer begins to count down (start button)
+AI has objective of maintaining distance from player within screen space before time runs out
+AI moves around screen by shifting in direction that increases variable distance from player
+AI moves one grid block every second
+Player has objective of tagging AI within screen space before time runs out
+Player can move around screen using arrow keys or wasd
+Player moves one grid block every second
+If player tags AI before time runs out screen flashes
+    Screen then reads victory and returns player to Candyland
+If player fails to tag AI before time runs out screen flashes
+    Screen then reads failure and returns player to Candyland """
 
 # Default player and computer starting locations
 playerLocation = [0, 0]
@@ -69,7 +69,7 @@ def getDirection(difference):
 """ Returns true if the game is supposed to be over and
 returns false if the game is supposed to keep running."""
 def checkGameEnd(time):
-    
+
 
 """ Returns true if player won and returns false is computer won. """
 def getWinner(time):
