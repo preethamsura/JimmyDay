@@ -13,24 +13,17 @@ class Snake():
     """ Creates the snake game with the given border limits and
     starts the game. """
     def __init__(self):
-        # Initialize Game
-        pygame.init()
-
-        # Change Title of Game
-        pygame.display.set_caption('Snake')
-
-        # Setting up the window
-        self.windowWidth = 1600
+        # Window size
+        self.windowWidth = 800
         self.windowHeight = 800
-        self.screen = pygame.display.set_mode([self.windowWidth,
-                                               self.windowHeight])
+        
+        # Default colors + images
         self.white = [255, 255, 255]
         self.black = (0, 0, 0)
         self.green = (46, 135, 58)
         self.red = (255, 0, 0)
         self.fruitColor = [255, 0, 0]
         self.apple = pygame.image.load(os.getcwd() + '/Snake' + '/apple.png')
-        self.screen.fill(self.white)
         self.dead = False
 
         # Draw game border
