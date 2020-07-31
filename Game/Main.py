@@ -1,17 +1,15 @@
-""" Main class which runs the machine learning snake
-program or it allows the player to play snake. """
+""" Main class which instantiates pygame and creates the basic screen. 
+Will leave this class and move to other files as soon as the game is started. 
+Game starts when player clicks the 'Play' Button. """
 
 # Necessary imports
 import pygame
-from Snake import Snake
-from Snake import Player
+import BoardGame
 
-# Define the screen which will be used by every game class
-screen = ""
-font = ""
-player_text_rect = ""
+# Instantiate play button for the main screen.
+play_button_rect = ""
 
-# All the colors which can be used in any class
+# All the default colors which can be used in any class
 colors = {
     "white": [255, 255, 255],
     "black": [0, 0, 0],
@@ -20,70 +18,77 @@ colors = {
 
 # Properties of the screen and the actual screen.
 screenProperties = {
-    screen: "",
-    font: "",
-    
+    "screen": "", # Screen which is going to be used
+    "font": "", # Default font
+    "windowWidth": "", # Screen width
+    "windowHeight": "", # Screen height
+    "colors": colors
 }
 
 # Runs the application 
 def __main__():
-    # Creates the screen with default parameters
+    # Creates the screen with default parameters and a play button.
     createScreen()
+
+    # Keeps the screen going until someone clicks the play button. 
+    introduction()
+
+    Board = BoardGame.BoardGame(screenProperties)
     
 
 # Creates the default screen
 def createScreen():
-    global font, screen, player_text_rect
+    global play_button_rect
 
     # Create the pygame screen with caption "Happy Birthday Jimmy"
     pygame.init()
     pygame.display.set_caption('Happy Birthday Jimmy')
 
     # Setting up the window
-    windowWidth = 800
-    windowHeight = 800
-    screen = pygame.display.set_mode([windowWidth, windowHeight])
-    screen.fill(colors["white"])
+    screenProperties["windowWidth"] = 1200
+    screenProperties["windowHeight"] = 800
+    screenProperties["screen"] = pygame.display.set_mode([screenProperties["windowWidth"], screenProperties["windowHeight"]])
+    screenProperties["screen"].fill(colors["white"])
 
     # Creates rectangle for the play Game Button
-    font = pygame.font.Font('freesansbold.ttf', 80)
-    player_text = font.render("PLAY", True, colors["black"], colors["white"])
-    player_text_rect = player_text.get_rect()
-    player_text_rect.center = (400, 400)
-    screen.blit(player_text, player_text_rect)
+    screenProperties["font"] = pygame.font.Font('freesansbold.ttf', 80)
+    play_text = screenProperties["font"].render("PLAY", True, colors["black"], colors["white"])
+    play_button_rect = play_text.get_rect()
+    play_button_rect.center = (600, 400)
+    screenProperties["screen"].blit(play_text, play_button_rect)
     pygame.display.update()
 
 """ Clears the display buttons"""
 def clearButtons():
     # Updates player button to be white
-    player_text = font.render("Default", True, colors["white"], colors["white"])
-    screen.blit(player_text, player_text_rect)
-
-""" Starts a game which the player can play using wasd or arrow keys. """
-def playerGame():
-    Player.Player(game)
-
-__main__()
+    play_text = screenProperties["font"].render("Default", True, colors["white"], colors["white"])
+    screenProperties["screen"].blit(play_text, play_button_rect)
 
 """ Runs the intro sequence until the player clicks the button to
 play a player version of the game. The variable intro will be set to False when
 the simulation starts. """
-intro = True
-while intro:
-    pygame.display.update()
-    events = pygame.event.get()
-    for event in events:
-        # Event for a mouseclick.
-        if event.type == pygame.MOUSEBUTTONUP:
-            click = pygame.mouse.get_pos()
+def introduction():
+    # Variable which keeps track of whether or not the intro should still be running.
+    intro = True
 
-            # Checks to see if the click position was on the Player game button.
-            if (click[0] > 300 and click[1] > 350 and click[0] < 500 and click[1] < 450):
-                clearButtons()
-                #playerGame()
-                #intro = False
+    # Loops until the play button is clicked.
+    while intro:
+        pygame.display.update()
+        events = pygame.event.get()
+        for event in events:
+            # Event for a mouseclick.
+            if event.type == pygame.MOUSEBUTTONUP:
+                click = pygame.mouse.get_pos()
 
-        # This is ran if the the window is closed. It closes the window and terminates the program.
-        elif event.type == pygame.QUIT:
-            intro = False
-            pygame.quit()
+                # Checks to see if the click position was on the Player game button.
+                if (click[0] > 500 and click[1] > 350 and click[0] < 700 and click[1] < 450):
+                    clearButtons()
+                    intro = False
+
+            # This is ran if the the window is closed. It closes the window and terminates the program.
+            elif event.type == pygame.QUIT:
+                intro = False
+                pygame.quit()
+
+# Starts the game.
+__main__()

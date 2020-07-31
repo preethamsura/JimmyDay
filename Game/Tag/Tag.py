@@ -13,7 +13,7 @@ Player moves one grid block every second
 If player tags AI before time runs out screen flashes
     Screen then reads victory and returns player to Candyland
 If player fails to tag AI before time runs out screen flashes
-    Screen then reads failure and returns player to Candyland """
+    Screen then reads failure and returns player to Candyland"""
 
 # Default player and computer starting locations
 playerLocation = [0, 0]
