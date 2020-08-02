@@ -13,8 +13,12 @@ play_button_rect = ""
 colors = {
     "white": [255, 255, 255],
     "black": [0, 0, 0],
-    "green": [46, 135, 58]
-}
+    "green": [46, 135, 58],
+    "bright blue": [0, 255, 255],
+    "light red" : [255, 102, 102],
+    "dark blue" : [0, 51, 102],
+    "gold" : [255, 188, 0],
+}  
 
 fonts = {
     "playButtonFont": "",

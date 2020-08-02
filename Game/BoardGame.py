@@ -2,6 +2,7 @@
 
 import pygame
 from random import randint
+from Snake import Player as SnakePlayer
 
 class BoardGame():
 
@@ -12,12 +13,15 @@ class BoardGame():
         self.screen = screenProps["screen"]
         self.colors = screenProps["colors"]
         self.fonts = screenProps["fonts"]
+        self.fonts["turnFont"] = pygame.font.Font('freesansbold.ttf', 25)
         self.fonts["boardFont"] = pygame.font.Font('freesansbold.ttf', 35)
+        self.fonts["scoreFont"] = pygame.font.Font('freesansbold.ttf', 45)
+        self.fonts["diceFont"] = pygame.font.Font('freesansbold.ttf', 60)
         self.boardSquareLength = 100
 
         # Assigns scores which players receive for certain events. 
         self.winMiniGameScore = 3
-        self.reachEndFirstScore = 9
+        self.reachEndFirstScore = 6
 
         # Define dimensions for board and creates a new board 
         # with randomized game squares
@@ -29,6 +33,9 @@ class BoardGame():
         self.computerPos = 0
         self.computerScore = 0
         self.playerScore = 0
+        self.playerRadius = 15
+        self.lastPlayerRoll = 0
+        self.lastComputerRoll = 0
 
         # Displays the initial starting state of the game. 
         self.updateDisplay()
@@ -40,31 +47,17 @@ class BoardGame():
     includes where the game squares are located and locations of both players."""
     def updateDisplay(self):
         # Wipe the screen of whatever was there beforehand.
-        self.screen.fill(self.colors["white"])
+        self.screen.fill(self.colors["light red"])
 
+        # Display different parts of the screen which represent the whole board game.
         self.displayBoard()
         self.displayPieces()
         self.displayScores()
+        self.displayPreviousTurns()
+        self.displayDiceButton()
 
+        # Update the display with the display changes. 
         pygame.display.update()
-
-        # Variable which keeps track of whether or not the intro should still be running.
-        intro = True
-
-        # Loops until the play button is clicked.
-        while intro:
-            events = pygame.event.get()
-            for event in events:
-                # Event for a mouseclick.
-                if event.type == pygame.MOUSEBUTTONUP:
-                    click = pygame.mouse.get_pos()
-
-                # This is ran if the the window is closed. It closes the window and terminates the program.
-                elif event.type == pygame.QUIT:
-                    intro = False
-                    pygame.quit()
-
-        return False
 
     """ Displays the board (top down). Special game squares will be indicated by a number of a different color from
     the rest of the board numbers (which will be of the same background color as the board)."""
@@ -77,24 +70,71 @@ class BoardGame():
             # For all the squares in the board, display the number which represents that square. 
             # Colors the number of the square a different color if that square is a game square. 
             if (self.board[i]):
-                numberText = self.fonts["boardFont"].render(str(i + 1), True, self.colors["black"], self.colors["green"])
+                numberText = self.fonts["boardFont"].render(str(i + 1), 
+                    True, self.colors["black"], self.colors["white"])
             else:
-                numberText = self.fonts["boardFont"].render(str(i + 1), True, self.colors["black"], self.colors["white"])
+                numberText = self.fonts["boardFont"].render(str(i + 1), 
+                    True, self.colors["black"], self.colors["light red"])
             numberTextRect = numberText.get_rect()
             numberTextRect.center = (xval, yval)
             self.screen.blit(numberText, numberTextRect)
 
             # Draw a rectangle around the squares on the board. 
-            pygame.draw.rect(self.screen, self.colors["black"], (xval - 20, yval - 20, self.boardSquareLength, self.boardSquareLength), 5)
+            pygame.draw.rect(self.screen, self.colors["black"], (xval - 20, yval - 20, 
+                self.boardSquareLength, self.boardSquareLength), 5)
 
+    """ Displays the information of what the rolls were on the previous turns. """
+    def displayPreviousTurns(self):
+        # Display information for what player did on the last turn.
+        playerString = "Last Turn, the player moved " + str(self.lastPlayerRoll)
+        player_text = self.fonts["boardFont"].render(playerString, True, self.colors["black"], self.colors["light red"])
+        player_rect = player_text.get_rect()
+        player_rect.center = (270, 175)
+        self.screen.blit(player_text, player_rect)
 
-    """ FIX ME"""
+        # Display information for the computer's last turn. 
+        computerString = "Last Turn, the computer moved " + str(self.lastComputerRoll)
+        computer_text = self.fonts["boardFont"].render(computerString, True, self.colors["black"], self.colors["light red"])
+        computer_rect = computer_text.get_rect()
+        computer_rect.center = (300, 225)
+        self.screen.blit(computer_text, computer_rect)
+
+    """ Display the location of the player and the computer player. """
     def displayPieces(self):
-        return False
+        # Display the player piece. 
+        playerX = self.playerPos % 10 * self.boardSquareLength + 110
+        playerY = self.playerPos // 10 * self.boardSquareLength + 350
+        pygame.draw.circle(self.screen, self.colors["dark blue"], (playerX, playerY), self.playerRadius)
 
-    """ FIX ME"""
+        # Display the computer piece. 
+        computerX = self.computerPos % 10 * self.boardSquareLength + 160
+        computerY = self.computerPos // 10 * self.boardSquareLength + 350
+        pygame.draw.circle(self.screen, self.colors["gold"], (computerX, computerY), self.playerRadius)
+
+    """ Display the score for both the player and the computer."""
     def displayScores(self):
-        return False
+        # Display the player score.
+        player_text = self.fonts["scoreFont"].render("Player: " + str(self.playerScore), True, self.colors["black"], self.colors["light red"])
+        player_rect = player_text.get_rect()
+        player_rect.center = (875, 100)
+        self.screen.blit(player_text, player_rect)
+
+        # Display the computer score. 
+        computer_text = self.fonts["scoreFont"].render("Computer " + str(self.computerScore), True, self.colors["black"], self.colors["light red"])
+        computer_rect = computer_text.get_rect()
+        computer_rect.center = (900, 150)
+        self.screen.blit(computer_text, computer_rect)
+
+    """ Displays the button the player should click on to roll the dice and make their turn."""
+    def displayDiceButton(self):
+        # Display the text for the button. 
+        dice_text = self.fonts["diceFont"].render("Roll the Dice", True, self.colors["black"], self.colors["light red"])
+        dice_button_rect = dice_text.get_rect()
+        dice_button_rect.center = (200, 100)
+        self.screen.blit(dice_text, dice_button_rect)
+
+        # Display the rectangle which goes around the text. 
+        pygame.draw.rect(self.screen, self.colors["black"], (15, 65, 390, 60), 5)
 
     """ Creates a new board variable which has 50 spaces. Board will
     have randomized game squares every 2 to 5 squares. Item in board will be True
@@ -128,14 +168,61 @@ class BoardGame():
             if (self.checkGameEnd()):
                 break
 
+            # Update the display to represent the new game state. 
+            self.updateDisplay()
+
+        # Adds score to whichever player reached the end of the board first. 
+        self.reachEndFirst()
+
+        print("Player: " + str(self.playerScore) + " Computer: " + str(self.computerScore))
+        
+        # Updates the display with the final results. 
+        self.updateDisplay()
+
     """ FIX ME"""
     def makePlayerMove(self):
+        # Wait till player continues the game. 
+        self.waitTillRoll()
+
+        # Make the players move. 
+        self.lastPlayerRoll = randint(1, 6)
+        self.playerPos += self.lastPlayerRoll
+
+        # Plays a mini game if the player is on a game square. 
+        if (self.checkGameSpace(self.playerPos)):
+            self.playMiniGame()
+
+    """ Returns True if the player won the mini game that they are playing.""" 
+    def playMiniGame(self):
         return False
+
+    """ Wait until the player clicks the "roll the dice" button to move on with the game."""
+    def waitTillRoll(self):
+        # Variable which keeps track of whether or not the intro should still be running.
+        waiting = True
+
+        # Loops until the play button is clicked.
+        while waiting:
+            events = pygame.event.get()
+            for event in events:
+                # Event for a mouseclick.
+                if event.type == pygame.MOUSEBUTTONUP:
+                    click = pygame.mouse.get_pos()
+
+                    # Checks to see if player clicked the "roll the dice button".
+                    if (click[0] > 15 and click[1] > 65 and click[0] < 390 and click[1] < 125):
+                        waiting = False
+
+                # This is ran if the the window is closed. It closes the window and terminates the program.
+                elif event.type == pygame.QUIT:
+                    waiting = False
+                    pygame.quit()
         
     """ FIX ME"""
     def makeComputerMove(self):
         # Adds to computer square.
-        self.computerPos += self.rollDice()
+        self.lastComputerRoll = self.rollDice()
+        self.computerPos += self.lastComputerRoll
 
         # Checks to see if the computer should play a "minigame." 
         # Computer has a 50-50 chance of winning the minigame. 
@@ -155,7 +242,20 @@ class BoardGame():
     def rollDice(self):
         return randint(1, 6)
 
-    """ Returns true if there is a winner (either computer or player). """
+    """ Need to print winner at the top of the screen. """
+    def endGame(self):
+        # Checks to see if the player won. 
+        if (self.playerScore > self.computerScore):
+            # Prints at top that player won. 
+            return False
+        elif (self.playerScore == self.computerScore):
+            # Prints that there was a tie.
+            return False
+        else:
+            # Prints that computer won and that the player should try again.
+            return False
+
+    """ Returns true if someone reached the end (either computer or player). """
     def checkGameEnd(self):
         return self.playerPos >= 49 or self.computerPos >= 49
 
@@ -163,3 +263,10 @@ class BoardGame():
     computer won the game or there was a tie. """
     def didPlayerWin(self):
         return self.playerScore > self.computerScore
+    
+    """ Adds score to which ever player reached the end of the board first."""
+    def reachEndFirst(self):
+        if (self.playerPos >= 49):
+            self.playerScore += self.reachEndFirstScore
+        else:
+            self.computerScore += self.reachEndFirstScore
