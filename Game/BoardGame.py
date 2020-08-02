@@ -16,12 +16,18 @@ class BoardGame():
         self.fonts["turnFont"] = pygame.font.Font('freesansbold.ttf', 25)
         self.fonts["boardFont"] = pygame.font.Font('freesansbold.ttf', 35)
         self.fonts["scoreFont"] = pygame.font.Font('freesansbold.ttf', 45)
-        self.fonts["diceFont"] = pygame.font.Font('freesansbold.ttf', 60)
+        self.fonts["diceFont"] = pygame.font.Font('freesansbold.ttf', 55)
+        self.fonts["endGame"] = pygame.font.Font('freesansbold.ttf', 15)
         self.boardSquareLength = 100
+
+        # Assigns the different games that can be played to an integer from 1-4
+        self.games = {
+            0: SnakePlayer
+        }
 
         # Assigns scores which players receive for certain events. 
         self.winMiniGameScore = 3
-        self.reachEndFirstScore = 6
+        self.reachEndFirstScore = 7
 
         # Define dimensions for board and creates a new board 
         # with randomized game squares
@@ -86,17 +92,17 @@ class BoardGame():
     """ Displays the information of what the rolls were on the previous turns. """
     def displayPreviousTurns(self):
         # Display information for what player did on the last turn.
-        playerString = "Last Turn, the player moved " + str(self.lastPlayerRoll)
+        playerString = "The player moved " + str(self.lastPlayerRoll)
         player_text = self.fonts["boardFont"].render(playerString, True, self.colors["black"], self.colors["light red"])
         player_rect = player_text.get_rect()
-        player_rect.center = (270, 175)
+        player_rect.center = (200, 175)
         self.screen.blit(player_text, player_rect)
 
         # Display information for the computer's last turn. 
-        computerString = "Last Turn, the computer moved " + str(self.lastComputerRoll)
+        computerString = "The computer moved " + str(self.lastComputerRoll)
         computer_text = self.fonts["boardFont"].render(computerString, True, self.colors["black"], self.colors["light red"])
         computer_rect = computer_text.get_rect()
-        computer_rect.center = (300, 225)
+        computer_rect.center = (230, 225)
         self.screen.blit(computer_text, computer_rect)
 
     """ Display the location of the player and the computer player. """
@@ -148,7 +154,7 @@ class BoardGame():
         i = randint(1, 4)
         while (i < self.spaces - 1):
             self.board[i] = 1
-            randomNum = randint(2, 5)
+            randomNum = randint(1, 4)
             i += randomNum
 
 
@@ -174,10 +180,11 @@ class BoardGame():
         # Adds score to whichever player reached the end of the board first. 
         self.reachEndFirst()
 
-        print("Player: " + str(self.playerScore) + " Computer: " + str(self.computerScore))
-        
         # Updates the display with the final results. 
         self.updateDisplay()
+        
+        # Prints the winner. 
+        self.endGame()
 
     """ FIX ME"""
     def makePlayerMove(self):
@@ -244,16 +251,44 @@ class BoardGame():
 
     """ Need to print winner at the top of the screen. """
     def endGame(self):
-        # Checks to see if the player won. 
+        # Default result is a tie.
+        result = "There was a Tie"
+
         if (self.playerScore > self.computerScore):
             # Prints at top that player won. 
-            return False
-        elif (self.playerScore == self.computerScore):
-            # Prints that there was a tie.
-            return False
-        else:
+            result = "You Won!"
+
+            # Prize Text
+            self.prize = "Steam Code: DTBCT-MTRKI-BPGXR"
+            end_text = self.fonts["endGame"].render(self.prize, True, self.colors["black"], self.colors["light red"])
+            end_rect = end_text.get_rect()
+            end_rect.center = (600, 80)
+            self.screen.blit(end_text, end_rect)
+            
+        elif (self.playerScore < self.computerScore):
             # Prints that computer won and that the player should try again.
-            return False
+            result = "Computer Won"
+
+        # Prints the winner at the top of the screen.
+        end_text = self.fonts["diceFont"].render(result, True, self.colors["black"], self.colors["light red"])
+        end_rect = end_text.get_rect()
+        end_rect.center = (600, 40)
+        self.screen.blit(end_text, end_rect)
+
+        pygame.display.update()
+        
+        # Waits until the player closes out of the window to end the game. 
+        waiting = True
+
+        # Loops until the play button is clicked.
+        while waiting:
+            events = pygame.event.get()
+            for event in events:
+                # This is ran if the the window is closed. It closes the window and terminates the program.
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    pygame.quit()
+
 
     """ Returns true if someone reached the end (either computer or player). """
     def checkGameEnd(self):
@@ -264,9 +299,13 @@ class BoardGame():
     def didPlayerWin(self):
         return self.playerScore > self.computerScore
     
-    """ Adds score to which ever player reached the end of the board first."""
+    """ Adds score to which ever player reached the end of the board first.
+    Resets the position to 49 so that the final position of the displayed piece
+    is on the last square. """
     def reachEndFirst(self):
         if (self.playerPos >= 49):
             self.playerScore += self.reachEndFirstScore
+            self.playerPos = 49
         else:
             self.computerScore += self.reachEndFirstScore
+            self.computerPos = 49
