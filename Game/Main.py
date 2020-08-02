@@ -16,13 +16,19 @@ colors = {
     "green": [46, 135, 58]
 }
 
+fonts = {
+    "playButtonFont": "",
+    "boardFont": ""
+}
+
 # Properties of the screen and the actual screen.
 screenProperties = {
     "screen": "", # Screen which is going to be used
     "font": "", # Default font
     "windowWidth": "", # Screen width
     "windowHeight": "", # Screen height
-    "colors": colors
+    "colors": colors, 
+    "fonts": fonts
 }
 
 # Runs the application 
@@ -51,8 +57,8 @@ def createScreen():
     screenProperties["screen"].fill(colors["white"])
 
     # Creates rectangle for the play Game Button
-    screenProperties["font"] = pygame.font.Font('freesansbold.ttf', 80)
-    play_text = screenProperties["font"].render("PLAY", True, colors["black"], colors["white"])
+    fonts["playButtonFont"] = pygame.font.Font('freesansbold.ttf', 80)
+    play_text = fonts["playButtonFont"].render("PLAY", True, colors["black"], colors["white"])
     play_button_rect = play_text.get_rect()
     play_button_rect.center = (600, 400)
     screenProperties["screen"].blit(play_text, play_button_rect)
@@ -61,7 +67,7 @@ def createScreen():
 """ Clears the display buttons"""
 def clearButtons():
     # Updates player button to be white
-    play_text = screenProperties["font"].render("Default", True, colors["white"], colors["white"])
+    play_text = fonts["playButtonFont"].render("Default", True, colors["white"], colors["white"])
     screenProperties["screen"].blit(play_text, play_button_rect)
 
 """ Runs the intro sequence until the player clicks the button to
