@@ -2,16 +2,16 @@
 
 # Necessary imports
 import pygame
+from Snake import Snake
 
 class Player():
     """ A class which allows the player to play the snake game
     that is passed in using arrow keys or wasd."""
-    def __init__(self, game):
-        self.game = game
-        self.playerGame()
+    def __init__(self, screenProps):
+        self.game = Snake.Snake(screenProps)
 
     """ Creates a game where a player can play snake. """
-    def playerGame(self):
+    def playGame(self):
         self.game.startGame()
         running = True
         while running:

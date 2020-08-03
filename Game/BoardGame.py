@@ -20,10 +20,8 @@ class BoardGame():
         self.fonts["endGame"] = pygame.font.Font('freesansbold.ttf', 15)
         self.boardSquareLength = 100
 
-        # Assigns the different games that can be played to an integer from 1-4
-        self.games = {
-            0: SnakePlayer
-        }
+        # Assigns the different games that can be played and their names to an integer from 0-3
+        self.games = [["Snake", SnakePlayer], ["Snake", SnakePlayer], ["Snake", SnakePlayer], ["Snake", SnakePlayer]]
 
         # Assigns scores which players receive for certain events. 
         self.winMiniGameScore = 3
@@ -186,10 +184,11 @@ class BoardGame():
         # Prints the winner. 
         self.endGame()
 
-    """ FIX ME"""
+    """ Make the players move and starts a mini game if the player lands on a mini game square."""
     def makePlayerMove(self):
         # Wait till player continues the game. 
-        self.waitTillRoll()
+        clickCoords = [[15, 65], [390, 125]]
+        self.waitTillClick(clickCoords)
 
         # Make the players move. 
         self.lastPlayerRoll = randint(1, 6)
@@ -197,14 +196,36 @@ class BoardGame():
 
         # Plays a mini game if the player is on a game square. 
         if (self.checkGameSpace(self.playerPos)):
+            self.updateDisplay()
             self.playMiniGame()
 
-    """ Returns True if the player won the mini game that they are playing.""" 
+    """ Starts the mini game and returns True if the player won the mini game that they are playing.""" 
     def playMiniGame(self):
+        # Choose which mini game to play.
+        gameSelection = randint(0, 3)
+        gameName = self.games[gameSelection][0]
+        gamePlayer = self.games[gameSelection][1]
+
+        # Wait till the player clicks "Play" to start the mini game. 
+        self.displayPlayButton("Snake")
+        playCoords = [[450, 10],[750, 60]]
+        self.waitTillClick(playCoords)
+
+        # Create and start the game. 
+        game = gamePlayer.Player(self.screenProps)
+        winner = game.playGame()
         return False
 
-    """ Wait until the player clicks the "roll the dice" button to move on with the game."""
-    def waitTillRoll(self):
+    """ Displays the play mini game button which will open up the mini game."""
+    def displayPlayButton(self, gameName):
+        play_button = self.fonts["diceFont"].render("Play " + gameName, True, self.colors["black"], self.colors["light red"])
+        play_button_rect = play_button.get_rect()
+        play_button_rect.center = (600, 40)
+        self.screen.blit(play_button, play_button_rect)
+        pygame.display.update()
+
+    """ Wait till someone clicks in the passed in region (which is represented by coords)."""
+    def waitTillClick(self, coords):
         # Variable which keeps track of whether or not the intro should still be running.
         waiting = True
 
@@ -215,9 +236,10 @@ class BoardGame():
                 # Event for a mouseclick.
                 if event.type == pygame.MOUSEBUTTONUP:
                     click = pygame.mouse.get_pos()
+                    print(click)
 
                     # Checks to see if player clicked the "roll the dice button".
-                    if (click[0] > 15 and click[1] > 65 and click[0] < 390 and click[1] < 125):
+                    if (click[0] > coords[0][0] and click[1] > coords[0][1] and click[0] < coords[1][0] and click[1] < coords[1][1]):
                         waiting = False
 
                 # This is ran if the the window is closed. It closes the window and terminates the program.

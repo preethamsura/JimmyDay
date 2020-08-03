@@ -12,19 +12,21 @@ class Snake():
 
     """ Creates the snake game with the given border limits and
     starts the game. """
-    def __init__(self):
-        # Window size
-        self.windowWidth = 800
-        self.windowHeight = 800
-        
+    def __init__(self, screenProps):
+        # Setting the default variables.
+        self.screen = screenProps["screen"]
+        self.colors = screenProps["colors"]
+
         # Default colors + images
-        self.white = [255, 255, 255]
-        self.black = (0, 0, 0)
-        self.green = (46, 135, 58)
-        self.red = (255, 0, 0)
-        self.fruitColor = [255, 0, 0]
+        self.white = self.colors["white"]
+        self.black = self.colors["black"]
+        self.green = self.colors["green"]
+        self.red = self.colors["light red"]
         self.apple = pygame.image.load(os.getcwd() + '/Snake' + '/apple.png')
         self.dead = False
+
+        # Resetting the screen.
+        self.screen.fill(self.colors["white"])
 
         # Draw game border
         pygame.draw.rect(self.screen, self.black, (145, 145, 610, 610), 5)
@@ -55,7 +57,7 @@ class Snake():
         self.score_text = self.font.render('Total Score: ' +
             str(self.score), True, self.black, self.white)
         self.score_text_rect = self.score_text.get_rect()
-        self.score_text_rect.center = (self.windowWidth // 2, 20)
+        self.score_text_rect.center = (400 // 2, 20)
 
         # Prints the text to the screen
         self.screen.blit(self.score_text, self.score_text_rect)
