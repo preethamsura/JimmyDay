@@ -203,7 +203,7 @@ class BoardGame():
     """ Starts the mini game and returns True if the player won the mini game that they are playing.""" 
     def playMiniGame(self):
         # Choose which mini game to play.
-        gameSelection = 0
+        gameSelection = 1
         gameName = self.games[gameSelection][0]
         gamePlayer = self.games[gameSelection][1]
 

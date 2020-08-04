@@ -11,17 +11,22 @@ class Player():
         self.game = Tag.Tag(screenProps)
         self.playGame()
 
-    """ Creates a game where a player can play snake. """
+    """ Creates a game where a player can play tag. """
     def playGame(self):
-        # self.game.startGame()
+        # Start the game and run it till it is over. 
+        self.game.startGame()
+
         running = True
         while running:
             # Handles events
             for i in pygame.event.get():
                 self.keyPresses()
-                # Event which occurs every second
+                # Event which occurs every 50 milliseconds
                 if i.type == pygame.USEREVENT + 1:
-                    self.game.updateGame()
+                    value = self.game.updateGame()
+                    if (value):
+                        print(value)
+                        return value > -1
 
                 # Quitting out of the game
                 elif i.type == pygame.QUIT:
@@ -34,10 +39,10 @@ class Player():
 
         # Handling of directions
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
-            self.game.setDir(1)
-        elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
-            self.game.setDir(2)
-        elif (keys[pygame.K_UP] or keys[pygame.K_w]):
             self.game.setDir(3)
+        elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+            self.game.setDir(7)
+        elif (keys[pygame.K_UP] or keys[pygame.K_w]):
+            self.game.setDir(1)
         elif (keys[pygame.K_DOWN] or keys[pygame.K_s]):
-            self.game.setDir(4)
+            self.game.setDir(5)
