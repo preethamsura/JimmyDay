@@ -22,7 +22,7 @@ class Snake():
         self.black = self.colors["black"]
         self.green = self.colors["green"]
         self.red = self.colors["light red"]
-        self.apple = pygame.image.load(os.getcwd() + '/Snake' + '/apple.png')
+        self.apple = pygame.image.load(os.getcwd() + '/Snake' + '/Jambaaaaa.jpg')
         self.dead = False
 
         # Resetting the screen.
@@ -57,10 +57,16 @@ class Snake():
         self.score_text = self.font.render('Total Score: ' +
             str(self.score), True, self.black, self.white)
         self.score_text_rect = self.score_text.get_rect()
-        self.score_text_rect.center = (400 // 2, 20)
+        self.score_text_rect.center = (350, 50)
+
+        # Displays the minimum required score.
+        self.min_text = self.font.render('Minimum Score needed: 10', True, self.black, self.white)
+        self.min_text_rect = self.min_text.get_rect()
+        self.min_text_rect.center = (450, 100)
 
         # Prints the text to the screen
         self.screen.blit(self.score_text, self.score_text_rect)
+        self.screen.blit(self.min_text, self.min_text_rect)
         self.score += 1
 
     """ Changes the direction that the snake moves in.
@@ -99,7 +105,8 @@ class Snake():
             self.openLocations.pop(convertToKey(head))
         else:
             # Exits from the method if the game is over and starts a new game.
-            return
+            self.endGame()
+            return self.score
 
         # Removes last body part if fruit was not eaten
         if (not eaten):
@@ -119,6 +126,11 @@ class Snake():
             pygame.draw.rect(self.screen, self.green,
                 (body[0] * 30, body[1] * 30, 27, 27), 0)
 
+        pygame.display.update()
+
+        # Value which indicates that the game is not over. 
+        return -1
+
 
     """ Checks to see if the game is over """
     def checkLose(self):
@@ -126,8 +138,6 @@ class Snake():
 
         # Checks to see if the snake collides without itself or goes out of bounds
         if (not convertToKey(head) in self.openLocations or self.curr_moves > self.move_limit):
-            print(self.score - 1)
-            self.newGame()
             self.dead = True
             return True
 
@@ -187,9 +197,14 @@ class Snake():
         self.fruit_index = 0
 
     """ Starts the actual snake game."""
-    def startGame(self, speed = 350):
+    def startGame(self, speed = 250):
         # Start Timer
         pygame.time.set_timer(pygame.USEREVENT + 1, speed)
+
+    """ Disables the timer. """
+    def endGame(self):
+        # End Timer
+        pygame.time.set_timer(pygame.USEREVENT + 1, 0)
 
     def addVideoFeed(self, frame):
         #Add webcam feed to the pygame window

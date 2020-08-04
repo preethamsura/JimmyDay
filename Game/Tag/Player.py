@@ -1,23 +1,21 @@
-""" Player class which represents a player playing snake. """
+""" Player class which represents a player playing tag. """
 
 # Necessary imports
 import pygame
+from Tag import Tag
 
 class Player():
-    """ A class which allows the player to play the snake game
+    """ A class which allows the player to play the tag game
     that is passed in using arrow keys or wasd."""
-    def __init__(self, game):
-        self.game = game
-        self.playerGame()
+    def __init__(self, screenProps):
+        self.game = Tag.Tag(screenProps)
+        self.playGame()
 
     """ Creates a game where a player can play snake. """
-    def playerGame(self):
-        self.game.startGame()
+    def playGame(self):
+        # self.game.startGame()
         running = True
         while running:
-            # Updates Display
-            pygame.display.update()
-
             # Handles events
             for i in pygame.event.get():
                 self.keyPresses()
@@ -28,7 +26,6 @@ class Player():
                 # Quitting out of the game
                 elif i.type == pygame.QUIT:
                     running = False
-                    pygame.quit()
 
     """ Handles pressed keys by the player. """
     def keyPresses(self):

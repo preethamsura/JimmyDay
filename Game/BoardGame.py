@@ -3,6 +3,7 @@
 import pygame
 from random import randint
 from Snake import Player as SnakePlayer
+from Tag import Player as TagPlayer
 
 class BoardGame():
 
@@ -21,7 +22,7 @@ class BoardGame():
         self.boardSquareLength = 100
 
         # Assigns the different games that can be played and their names to an integer from 0-3
-        self.games = [["Snake", SnakePlayer], ["Snake", SnakePlayer], ["Snake", SnakePlayer], ["Snake", SnakePlayer]]
+        self.games = [["Snake Quest", SnakePlayer], ["Tag", TagPlayer], ["Snake Quest", SnakePlayer], ["Snake Quest", SnakePlayer]]
 
         # Assigns scores which players receive for certain events. 
         self.winMiniGameScore = 3
@@ -202,19 +203,19 @@ class BoardGame():
     """ Starts the mini game and returns True if the player won the mini game that they are playing.""" 
     def playMiniGame(self):
         # Choose which mini game to play.
-        gameSelection = randint(0, 3)
+        gameSelection = 0
         gameName = self.games[gameSelection][0]
         gamePlayer = self.games[gameSelection][1]
 
         # Wait till the player clicks "Play" to start the mini game. 
-        self.displayPlayButton("Snake")
+        self.displayPlayButton(gameName)
         playCoords = [[450, 10],[750, 60]]
         self.waitTillClick(playCoords)
 
-        # Create and start the game. 
+        # Create and start the game. Adds score to the player if they win the mini game.
         game = gamePlayer.Player(self.screenProps)
-        winner = game.playGame()
-        return False
+        if (game.playGame()):
+            self.playerScore += 3
 
     """ Displays the play mini game button which will open up the mini game."""
     def displayPlayButton(self, gameName):
@@ -236,7 +237,6 @@ class BoardGame():
                 # Event for a mouseclick.
                 if event.type == pygame.MOUSEBUTTONUP:
                     click = pygame.mouse.get_pos()
-                    print(click)
 
                     # Checks to see if player clicked the "roll the dice button".
                     if (click[0] > coords[0][0] and click[1] > coords[0][1] and click[0] < coords[1][0] and click[1] < coords[1][1]):

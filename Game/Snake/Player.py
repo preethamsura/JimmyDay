@@ -9,26 +9,25 @@ class Player():
     that is passed in using arrow keys or wasd."""
     def __init__(self, screenProps):
         self.game = Snake.Snake(screenProps)
+        self.winningScore = 11
 
     """ Creates a game where a player can play snake. """
     def playGame(self):
         self.game.startGame()
         running = True
         while running:
-            # Updates Display
-            pygame.display.update()
-
             # Handles events
             for i in pygame.event.get():
                 self.keyPresses()
                 # Event which occurs every second
                 if i.type == pygame.USEREVENT + 1:
-                    self.game.updateSnake()
+                    score = self.game.updateSnake()
+                    if (score >= 0):
+                        return score >= self.winningScore
 
                 # Quitting out of the game
                 elif i.type == pygame.QUIT:
                     running = False
-                    pygame.quit()
 
     """ Handles pressed keys by the player. """
     def keyPresses(self):
