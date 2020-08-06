@@ -4,6 +4,7 @@ import pygame
 from random import randint
 from Snake import Player as SnakePlayer
 from Tag import Player as TagPlayer
+from FlappyBird import Player as FlappyPlayer
 
 class BoardGame():
 
@@ -22,7 +23,7 @@ class BoardGame():
         self.boardSquareLength = 100
 
         # Assigns the different games that can be played and their names to an integer from 0-3
-        self.games = [["Snake Quest", SnakePlayer], ["Tag", TagPlayer], ["Snake Quest", SnakePlayer], ["Snake Quest", SnakePlayer]]
+        self.games = [["Snake Quest", SnakePlayer], ["Tag", TagPlayer], ["FlappyBird", FlappyPlayer], ["Snake Quest", SnakePlayer]]
 
         # Assigns scores which players receive for certain events. 
         self.winMiniGameScore = 3
@@ -203,7 +204,7 @@ class BoardGame():
     """ Starts the mini game and returns True if the player won the mini game that they are playing.""" 
     def playMiniGame(self):
         # Choose which mini game to play.
-        gameSelection = 1
+        gameSelection = 2
         gameName = self.games[gameSelection][0]
         gamePlayer = self.games[gameSelection][1]
 

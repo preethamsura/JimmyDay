@@ -137,8 +137,8 @@ class Tag():
         computerDir = self.computerDirection()
         xPlayer = self.playerLocation[0] + self.playerDir[0] * self.speed
         yPlayer = self.playerLocation[1] + self.playerDir[1] * self.speed
-        xcomp = self.computerLocation[0] + computerDir[0] * self.speed * 1.25
-        ycomp = self.computerLocation[1] + computerDir[1] * self.speed * 1.25
+        xcomp = self.computerLocation[0] + computerDir[0] * self.speed * 1.5
+        ycomp = self.computerLocation[1] + computerDir[1] * self.speed * 1.5
         
         # Move the player in the x direction if they will be in bounds after the move. 
         if (xPlayer >= self.leftBorder and xPlayer <= self.rightBorder):
