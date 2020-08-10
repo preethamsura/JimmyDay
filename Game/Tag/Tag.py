@@ -2,6 +2,7 @@
 The player wins if they can survive until the timer runs out and they lose otherwise."""
 
 import pygame
+import os
 
 class Tag():
 
@@ -10,6 +11,7 @@ class Tag():
         self.screen = screenProps["screen"]
         self.colors = screenProps["colors"]
         self.font = pygame.font.Font('freesansbold.ttf', 20)
+        self.teemo = pygame.image.load(os.getcwd() + '/Tag' + '/Teemo.jpg')
 
         # Default colors + images
         self.white = self.colors["white"]
@@ -65,8 +67,12 @@ class Tag():
 
     """ Draws the players at their current locations."""
     def drawPlayers(self):
+        # Player
         pygame.draw.circle(self.screen, self.darkblue, (int(self.playerLocation[0]), int(self.playerLocation[1])), self.radius)
-        pygame.draw.circle(self.screen, self.gold, (int(self.computerLocation[0]), int(self.computerLocation[1])), self.radius)
+
+        # Computer
+        self.screen.blit(pygame.transform.scale(self.teemo,
+            (30, 30)), (int(self.computerLocation[0] - 15), int(self.computerLocation[1] - 15)))
 
     """ Display the current time lasted. """ 
     def displayTime(self):

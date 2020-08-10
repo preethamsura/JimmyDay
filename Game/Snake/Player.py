@@ -9,7 +9,7 @@ class Player():
     that is passed in using arrow keys or wasd."""
     def __init__(self, screenProps):
         self.game = Snake.Snake(screenProps)
-        self.winningScore = 11
+        self.winningScore = 21
 
     """ Creates a game where a player can play snake. """
     def playGame(self):

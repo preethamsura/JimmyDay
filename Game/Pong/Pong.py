@@ -3,6 +3,7 @@
 import random
 import pygame, sys
 from pygame.locals import *
+import os
 
 class Pong():
     def __init__(self):
@@ -31,6 +32,7 @@ class Pong():
         #canvas declaration
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT + 40), 0, 32)
         pygame.display.set_caption('JimmyDay')
+        self.ball = pygame.image.load(os.getcwd() + '/Pong' + '/Spikeball.png')
 
         self.paddle1_pos = [self.HALF_PAD_WIDTH - 1, self.HEIGHT//2]
         self.paddle2_pos = [self.WIDTH +1 - self.HALF_PAD_WIDTH, self.HEIGHT//2]
@@ -115,7 +117,8 @@ class Pong():
         self.ball_pos[1] += int(self.ball_vel[1])
 
         #draw paddles and ball
-        pygame.draw.circle(canvas, self.RED, self.ball_pos, 20, 0)
+        self.window.blit(pygame.transform.scale(self.ball,
+            (40, 40)), (self.ball_pos[0] - 20, self.ball_pos[1] - 20))
         pygame.draw.polygon(canvas, self.GREEN, [[self.paddle1_pos[0] - self.HALF_PAD_WIDTH, self.paddle1_pos[1] - self.HALF_PAD_HEIGHT], [self.paddle1_pos[0] - self.HALF_PAD_WIDTH, self.paddle1_pos[1] + self.HALF_PAD_HEIGHT], 
             [self.paddle1_pos[0] + self.HALF_PAD_WIDTH, self.paddle1_pos[1] + self.HALF_PAD_HEIGHT], [self.paddle1_pos[0] + self.HALF_PAD_WIDTH, self.paddle1_pos[1] - self.HALF_PAD_HEIGHT]], 0)
         pygame.draw.polygon(canvas, self.GREEN, [[self.paddle2_pos[0] - self.HALF_PAD_WIDTH, self.paddle2_pos[1] - self.HALF_PAD_HEIGHT], [self.paddle2_pos[0] - self.HALF_PAD_WIDTH, self.paddle2_pos[1] + self.HALF_PAD_HEIGHT], 

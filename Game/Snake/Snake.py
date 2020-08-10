@@ -60,7 +60,7 @@ class Snake():
         self.score_text_rect.center = (350, 50)
 
         # Displays the minimum required score.
-        self.min_text = self.font.render('Minimum Score needed: 10', True, self.black, self.white)
+        self.min_text = self.font.render('Minimum Score needed: 20', True, self.black, self.white)
         self.min_text_rect = self.min_text.get_rect()
         self.min_text_rect.center = (450, 100)
 
@@ -205,14 +205,6 @@ class Snake():
     def endGame(self):
         # End Timer
         pygame.time.set_timer(pygame.USEREVENT + 1, 0)
-
-    def addVideoFeed(self, frame):
-        #Add webcam feed to the pygame window
-        self.screen.blit(frame, (775, 175))
-
-    def addCalibrateButton(self):
-        #Add calibrate button to the pygame window
-        return None
 
 """ Converts a given location to a key for openLocations dictionary """
 def convertToKey(location):

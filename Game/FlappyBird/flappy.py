@@ -3,6 +3,7 @@ import random
 import sys
 
 import pygame
+import os
 from pygame.locals import *
 
 try:
@@ -20,14 +21,15 @@ class Flappy():
         self.BASEY        = self.SCREENHEIGHT * 0.79
         # image, sound and hitmask  dicts
         self.IMAGES, self.SOUNDS, self.HITMASKS = {}, {}, {}
+        self.hat = pygame.image.load(os.getcwd() + '/FlappyBird' + '/Foothill.jpg')
 
         # list of all possible players (tuple of 3 positions of flap)
         self.PLAYERS_LIST = (
             # yellow bird
             (
-                'FlappyBird/assets/sprites/yellowbird-upflap.png',
-                'FlappyBird/assets/sprites/yellowbird-midflap.png',
-                'FlappyBird/assets/sprites/yellowbird-downflap.png',
+                'FlappyBird/Foothill.jpg',
+                'FlappyBird/Foothill.jpg',
+                'FlappyBird/Foothill.jpg',
             ),
         )
 
