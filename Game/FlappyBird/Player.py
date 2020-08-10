@@ -9,7 +9,7 @@ class Player():
     that is passed in using arrow keys or wasd."""
     def __init__(self, screenProps):
         self.screenProps = screenProps
-        self.winningScore = 5
+        self.winningScore = 10
 
     """ Creates a game where a player can play snake. """
     def playGame(self):
@@ -19,6 +19,7 @@ class Player():
         self.crashInfo = self.game.mainGame(self.movementInfo)
         score = self.game.showGameOverScreen(self.crashInfo)
 
+        # Resetting the screen size.
         self.screenProps["screen"] = pygame.display.set_mode([self.screenProps["windowWidth"], self.screenProps["windowHeight"]])
 
         return score >= self.winningScore

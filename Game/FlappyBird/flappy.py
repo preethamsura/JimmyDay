@@ -263,7 +263,7 @@ class Flappy():
         pygame.draw.rect(self.SCREEN, self.colors["white"], (0, self.SCREENHEIGHT, 
                 self.SCREENWIDTH, self.SCREENHEIGHT + 50), 100)
 
-        score_button = self.fonts["turnFont"].render("Score needed is 5", True, self.colors["black"], self.colors["white"])
+        score_button = self.fonts["turnFont"].render("Score needed is 10", True, self.colors["black"], self.colors["white"])
         score_button_rect = score_button.get_rect()
         score_button_rect.center = (self.SCREENWIDTH // 2, self.SCREENHEIGHT + 25)
         self.SCREEN.blit(score_button, score_button_rect)
