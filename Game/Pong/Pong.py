@@ -55,7 +55,7 @@ class Pong():
             self.displayWin()
 
             for event in pygame.event.get():
-
+                # Player key events
                 if event.type == KEYDOWN:
                     self.keydown(event)
                 elif event.type == KEYUP:
@@ -67,6 +67,7 @@ class Pong():
             pygame.display.update()
             self.fps.tick(60)
 
+            # Play the computer turn
             self.computerGame()
 
             if (self.l_score or self.r_score):
@@ -87,6 +88,7 @@ class Pong():
     """draw function of canvas """
     def draw(self, canvas):
 
+        # Draw in the board. 
         canvas.fill(self.BLACK)
         pygame.draw.line(canvas, self.WHITE, [self.WIDTH // 2, 0],[self.WIDTH // 2, self.HEIGHT], 1)
         pygame.draw.line(canvas, self.WHITE, [self.PAD_WIDTH, 0],[self.PAD_WIDTH, self.HEIGHT], 1)
