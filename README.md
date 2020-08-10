@@ -1,32 +1,50 @@
 # JimmyDay
-Birthday gift for Jimmy
+Happy Birthday Jimmy. Here is a mini game which we made for you because we didn't know what else to do creatively for your birthday. 
 
-## Parts List
-### Flappy Bird
-    Player tries to avoid pipes above and below while moving forward
-    Player must press space bar to fly between pipes
-    Player must score at least 10 to win
-### Snake
-    Player tries to eat as many jamba smoothies as possible and grow as long as possible
-    Player must avoid running into boundaries or themselves
-    Player must use wasd to control snake
-    Player must score at least 15 win
-### Pong
-    Player tries to score on goal of AI while defending own goal
-    Player must use w and s to control goalie line
-    Player must win best of three against AI to win game
-### Tag
-    Player tries to run away from AI within confined box
-    Player must use wasd to control dot
-    Player must avoid getting touched by AI for 30 secs to win
-### Main Candyland game interface thingy
-    Play again button
-    Player vs AI game format
-    Roll dice button
-Main screen (Click play + happy birthday)
+## Running the game.
+    1. Download the code (the whole thing) 
+    2. Make sure you have python3 on your computer.
+    3. Install pygame
+    4. Run the Main.py file
+    5. Laugh at how meme of a game this is.
 
-## All parts 
-Ending game goes back to main screen
-Winning games result in 3+ coins
-Reaching end of game first adds 9+ coins and ends the entire game
-Winner is person with the most coins in the end
+## Rules
+### Main Board Game - JimmyDay
+This is essentially the main game that you will be playing against the computer. 
+
+Screen Components:
+
+    1. Board - has regular squares and special squares which are indicated by a colored number
+    2. Current score of both players 
+    3. Roll the dice button
+    4. Information regarding what happened in the last turn. 
+    5. When you land on a mini game square, a button to play that mini game will be displayed. 
+    
+Minigames:
+
+    1. Minigames are indicated by the colored numbers on the board. 
+    2. If you land on a minigame square, you will be prompted to play that game. 
+    3. The game will start immediately after you click the button to play the game. 
+    4. The computer has a random chance of winning a minigame when it lands on that square. 
+
+To win, you need to have a higher score than the computer by the end. You can earn score in two different ways:
+
+    1. Win a mini game. (3 Points)
+    2. Reach the end first. (7 Points)
+    
+### FlappyHat
+FlappyHat is essentially what would happen if your hat became sentient and learned to fly. Use spacebar to play. You will need a score of 10 to win the minigame. 
+    
+### The Grind
+The Grind emulates the eternal struggle of you working at Jamba Juice (snake). You will need to make 20 drinks to win this game. Play using the arrow keys or wasd.
+
+### Spikeball
+This version of Spikeball is slightly different from irl spikeball since there are only two players, but you will be playing to make sure the ball stays afloat. Use the up and down arrow keys to play and you will need to only score once to win. 
+
+### Teemo Chase
+Everyone's worst nightmare of a teemo chasing them has come to life. You will have to run away from the teemo using the arrow keys or wasd for thirty seconds to win. The teemo is faster than you, but doesn't move well in certain directions so use that to your advantage.
+
+
+Overall, Happy 20th Birthday Jimmy! 
+
+##### PS make sure to win the game at least once. 
